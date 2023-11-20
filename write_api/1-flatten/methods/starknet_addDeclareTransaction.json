@@ -1,0 +1,173 @@
+{
+  "errors": [
+    {
+      "$ref": {
+        "#/components/errors/CLASS_ALREADY_DECLARED": {
+          "code": 51,
+          "message": "Class already declared"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/COMPILATION_FAILED": {
+          "code": 56,
+          "message": "Compilation failed"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/COMPILED_CLASS_HASH_MISMATCH": {
+          "code": 60,
+          "message": "the compiled class hash did not match the one supplied in the transaction"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/INSUFFICIENT_ACCOUNT_BALANCE": {
+          "code": 54,
+          "message": "Account balance is smaller than the transaction's max_fee"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/INSUFFICIENT_MAX_FEE": {
+          "code": 53,
+          "message": "Max fee is smaller than the minimal transaction cost (validation plus fee transfer)"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/INVALID_TRANSACTION_NONCE": {
+          "code": 52,
+          "message": "Invalid transaction nonce"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/VALIDATION_FAILURE": {
+          "code": 55,
+          "message": "Account validation failed"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/NON_ACCOUNT": {
+          "code": 58,
+          "message": "Sender address in not an account contract"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/DUPLICATE_TX": {
+          "code": 59,
+          "message": "A transaction with the same hash already exists in the mempool"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/CONTRACT_CLASS_SIZE_IS_TOO_LARGE": {
+          "code": 57,
+          "message": "Contract class size it too large"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/UNSUPPORTED_TX_VERSION": {
+          "code": 61,
+          "message": "the transaction version is not supported"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/UNSUPPORTED_CONTRACT_CLASS_VERSION": {
+          "code": 62,
+          "message": "the contract class version is not supported"
+        }
+      }
+    },
+    {
+      "$ref": {
+        "#/components/errors/UNEXPECTED_ERROR": {
+          "code": 63,
+          "data": "string",
+          "message": "An unexpected error occurred"
+        }
+      }
+    }
+  ],
+  "name": "starknet_addDeclareTransaction",
+  "params": [
+    {
+      "description": "Declare transaction required to declare a new class on Starknet",
+      "name": "declare_transaction",
+      "required": true,
+      "schema": {
+        "$ref": {
+          "_SCHEMA_NOT_FOUND_": "#/components/schemas/BROADCASTED_DECLARE_TXN"
+        },
+        "title": "Declare transaction"
+      }
+    }
+  ],
+  "result": {
+    "description": "The result of the transaction submission",
+    "name": "result",
+    "schema": {
+      "properties": {
+        "class_hash": {
+          "$ref": {
+            "#/components/schemas/FELT": {
+              "$ref": {
+                "./starknet_api_openrpc.json#/components/schemas/FELT": {
+                  "description": "A field element. represented by at most 63 hex digits",
+                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                  "title": "Field element",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "title": "The hash of the declared class"
+        },
+        "transaction_hash": {
+          "$ref": {
+            "#/components/schemas/TXN_HASH": {
+              "$ref": {
+                "./starknet_api_openrpc.json#/components/schemas/TXN_HASH": {
+                  "$ref": {
+                    "#/components/schemas/FELT": {
+                      "description": "A field element. represented by at most 63 hex digits",
+                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                      "title": "Field element",
+                      "type": "string"
+                    }
+                  },
+                  "description": "The transaction hash, as assigned in StarkNet",
+                  "title": "Transaction hash"
+                }
+              }
+            }
+          },
+          "title": "The hash of the declare transaction"
+        }
+      },
+      "required": [
+        "transaction_hash",
+        "class_hash"
+      ],
+      "type": "object"
+    }
+  },
+  "summary": "Submit a new class declaration transaction"
+}

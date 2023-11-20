@@ -136,6 +136,7 @@ async fn process(registry: &mut SchemaRegistry, domain: Domain) -> anyhow::Resul
     flatten_openrpc_spec(registry, domain, &mut root)?;
 
     let flattened_schemas = {
+        // TODO Collect?
         let mut result = Map::new();
         registry.schemas.iter()
         .filter(|(pointer, _schema)| pointer.domain == domain)
@@ -185,7 +186,7 @@ fn write_output(domain: Domain, step_name: &str, result: Map<String, Value>) -> 
     result
         .iter()
         .filter_map(|(pointer, schema)| {
-            if pointer.starts_with("#/methods") {
+            if pointer.starts_with("/methods") {
                 let name = pointer.split('/').last().unwrap_or(pointer);
                 Some((name, schema))
             } else {
