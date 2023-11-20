@@ -1,0 +1,208 @@
+{
+  "description": "estimates the resources required by the l1_handler transaction induced by the message",
+  "errors": [
+    {
+      "CONTRACT_NOT_FOUND": {
+        "code": 20,
+        "message": "Contract not found"
+      }
+    },
+    {
+      "CONTRACT_ERROR": {
+        "code": 40,
+        "data": {
+          "description": "More data about the execution failure",
+          "properties": {
+            "revert_error": {
+              "description": "a string encoding the execution trace up to the point of failure",
+              "title": "revert error",
+              "type": "string"
+            }
+          },
+          "required": "revert_error",
+          "type": "object"
+        },
+        "message": "Contract error"
+      }
+    },
+    {
+      "BLOCK_NOT_FOUND": {
+        "code": 24,
+        "message": "Block not found"
+      }
+    }
+  ],
+  "name": "starknet_estimateMessageFee",
+  "params": [
+    {
+      "description": "the message's parameters",
+      "name": "message",
+      "required": true,
+      "schema": {
+        "MSG_FROM_L1": {
+          "properties": {
+            "entry_point_selector": {
+              "FELT": {
+                "description": "A field element. represented by at most 63 hex digits",
+                "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                "title": "Field element",
+                "type": "string"
+              },
+              "description": "The selector of the l1_handler in invoke in the target contract",
+              "required": true,
+              "title": "Selector"
+            },
+            "from_address": {
+              "ETH_ADDRESS": {
+                "$comment": "An ethereum address",
+                "description": "an ethereum address represented as 40 hex digits",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "title": "Ethereum address",
+                "type": "string"
+              },
+              "description": "The address of the L1 contract sending the message",
+              "required": true
+            },
+            "payload": {
+              "description": "The payload of the message",
+              "items": {
+                "FELT": {
+                  "description": "A field element. represented by at most 63 hex digits",
+                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                  "title": "Field element",
+                  "type": "string"
+                }
+              },
+              "required": true,
+              "title": "Payload",
+              "type": "array"
+            },
+            "to_address": {
+              "ADDRESS": {
+                "FELT": {
+                  "description": "A field element. represented by at most 63 hex digits",
+                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                  "title": "Field element",
+                  "type": "string"
+                },
+                "title": "Address"
+              },
+              "description": "The target L2 address the message is sent to",
+              "required": true,
+              "title": "To address"
+            }
+          },
+          "title": "Message from L1",
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "The hash of the requested block, or number (height) of the requested block, or a block tag, for the block referencing the state or call the transaction on.",
+      "name": "block_id",
+      "required": true,
+      "schema": {
+        "BLOCK_ID": {
+          "description": "Block hash, number or tag",
+          "oneOf": [
+            {
+              "properties": {
+                "block_hash": {
+                  "BLOCK_HASH": {
+                    "FELT": {
+                      "description": "A field element. represented by at most 63 hex digits",
+                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                      "title": "Field element",
+                      "type": "string"
+                    },
+                    "title": "Block hash"
+                  },
+                  "required": true,
+                  "title": "Block hash"
+                }
+              },
+              "title": "Block hash",
+              "type": "object"
+            },
+            {
+              "properties": {
+                "block_number": {
+                  "BLOCK_NUMBER": {
+                    "description": "The block's number (its height)",
+                    "minimum": 0,
+                    "title": "Block number",
+                    "type": "integer"
+                  },
+                  "required": true,
+                  "title": "Block number"
+                }
+              },
+              "title": "Block number",
+              "type": "object"
+            },
+            {
+              "BLOCK_TAG": {
+                "description": "A tag specifying a dynamic reference to a block",
+                "enum": [
+                  "latest",
+                  "pending"
+                ],
+                "title": "Block tag",
+                "type": "string"
+              },
+              "title": "Block tag"
+            }
+          ],
+          "title": "Block id"
+        },
+        "title": "Block id"
+      }
+    }
+  ],
+  "result": {
+    "description": "the fee estimation",
+    "name": "result",
+    "schema": {
+      "FEE_ESTIMATE": {
+        "properties": {
+          "gas_consumed": {
+            "NUM_AS_HEX": {
+              "description": "An integer number in hex format (0x...)",
+              "pattern": "^0x[a-fA-F0-9]+$",
+              "title": "Number as hex",
+              "type": "string"
+            },
+            "description": "The Ethereum gas cost of the transaction (see https://docs.starknet.io/docs/Fees/fee-mechanism for more info)",
+            "required": true,
+            "title": "Gas consumed"
+          },
+          "gas_price": {
+            "NUM_AS_HEX": {
+              "description": "An integer number in hex format (0x...)",
+              "pattern": "^0x[a-fA-F0-9]+$",
+              "title": "Number as hex",
+              "type": "string"
+            },
+            "description": "The gas price (in gwei) that was used in the cost estimation",
+            "required": true,
+            "title": "Gas price"
+          },
+          "overall_fee": {
+            "NUM_AS_HEX": {
+              "description": "An integer number in hex format (0x...)",
+              "pattern": "^0x[a-fA-F0-9]+$",
+              "title": "Number as hex",
+              "type": "string"
+            },
+            "description": "The estimated fee for the transaction (in gwei), product of gas_consumed and gas_price",
+            "required": true,
+            "title": "Overall fee"
+          }
+        },
+        "title": "Fee estimation",
+        "type": "object"
+      }
+    }
+  },
+  "summary": "estimate the L2 fee of a message sent on L1"
+}

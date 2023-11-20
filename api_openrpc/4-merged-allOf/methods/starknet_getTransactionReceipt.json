@@ -1,0 +1,2974 @@
+{
+  "errors": [
+    {
+      "TXN_HASH_NOT_FOUND": {
+        "code": 29,
+        "message": "Transaction hash not found"
+      }
+    }
+  ],
+  "name": "starknet_getTransactionReceipt",
+  "paramStructure": "by-name",
+  "params": [
+    {
+      "name": "transaction_hash",
+      "required": true,
+      "schema": {
+        "TXN_HASH": {
+          "FELT": {
+            "description": "A field element. represented by at most 63 hex digits",
+            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+            "title": "Field element",
+            "type": "string"
+          },
+          "description": "The transaction hash, as assigned in StarkNet",
+          "title": "Transaction hash"
+        },
+        "title": "Transaction hash"
+      },
+      "summary": "The hash of the requested transaction"
+    }
+  ],
+  "result": {
+    "name": "result",
+    "schema": {
+      "oneOf": [
+        {
+          "TXN_RECEIPT": {
+            "oneOf": [
+              {
+                "INVOKE_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "block_hash": {
+                          "BLOCK_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Block hash"
+                          },
+                          "required": true,
+                          "title": "Block hash"
+                        },
+                        "block_number": {
+                          "BLOCK_NUMBER": {
+                            "description": "The block's number (its height)",
+                            "minimum": 0,
+                            "title": "Block number",
+                            "type": "integer"
+                          },
+                          "required": true,
+                          "title": "Block number"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "TXN_FINALITY_STATUS": {
+                            "description": "The finality status of the transaction",
+                            "enum": [
+                              "ACCEPTED_ON_L2",
+                              "ACCEPTED_ON_L1"
+                            ],
+                            "title": "Finality status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Finality status"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        }
+                      },
+                      "title": "Common receipt properties",
+                      "type": "object"
+                    },
+                    "type": {
+                      "enum": [
+                        "INVOKE"
+                      ],
+                      "required": true,
+                      "title": "Type",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Invoke Transaction Receipt"
+                },
+                "title": "Invoke transaction receipt"
+              },
+              {
+                "L1_HANDLER_TXN_RECEIPT": {
+                  "description": "receipt for l1 handler transaction",
+                  "properties": {
+                    "COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "block_hash": {
+                          "BLOCK_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Block hash"
+                          },
+                          "required": true,
+                          "title": "Block hash"
+                        },
+                        "block_number": {
+                          "BLOCK_NUMBER": {
+                            "description": "The block's number (its height)",
+                            "minimum": 0,
+                            "title": "Block number",
+                            "type": "integer"
+                          },
+                          "required": true,
+                          "title": "Block number"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "TXN_FINALITY_STATUS": {
+                            "description": "The finality status of the transaction",
+                            "enum": [
+                              "ACCEPTED_ON_L2",
+                              "ACCEPTED_ON_L1"
+                            ],
+                            "title": "Finality status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Finality status"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        }
+                      },
+                      "title": "Common receipt properties",
+                      "type": "object"
+                    },
+                    "message_hash": {
+                      "NUM_AS_HEX": {
+                        "description": "An integer number in hex format (0x...)",
+                        "pattern": "^0x[a-fA-F0-9]+$",
+                        "title": "Number as hex",
+                        "type": "string"
+                      },
+                      "description": "The message hash as it appears on the L1 core contract",
+                      "required": true,
+                      "title": "Message hash"
+                    },
+                    "type": {
+                      "enum": [
+                        "L1_HANDLER"
+                      ],
+                      "required": true,
+                      "title": "type",
+                      "type": "string"
+                    }
+                  },
+                  "title": "L1 Handler Transaction Receipt"
+                },
+                "title": "L1 handler transaction receipt"
+              },
+              {
+                "DECLARE_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "block_hash": {
+                          "BLOCK_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Block hash"
+                          },
+                          "required": true,
+                          "title": "Block hash"
+                        },
+                        "block_number": {
+                          "BLOCK_NUMBER": {
+                            "description": "The block's number (its height)",
+                            "minimum": 0,
+                            "title": "Block number",
+                            "type": "integer"
+                          },
+                          "required": true,
+                          "title": "Block number"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "TXN_FINALITY_STATUS": {
+                            "description": "The finality status of the transaction",
+                            "enum": [
+                              "ACCEPTED_ON_L2",
+                              "ACCEPTED_ON_L1"
+                            ],
+                            "title": "Finality status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Finality status"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        }
+                      },
+                      "title": "Common receipt properties",
+                      "type": "object"
+                    },
+                    "type": {
+                      "enum": [
+                        "DECLARE"
+                      ],
+                      "required": true,
+                      "title": "Declare",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Declare Transaction Receipt"
+                },
+                "title": "Declare transaction receipt"
+              },
+              {
+                "DEPLOY_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "block_hash": {
+                          "BLOCK_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Block hash"
+                          },
+                          "required": true,
+                          "title": "Block hash"
+                        },
+                        "block_number": {
+                          "BLOCK_NUMBER": {
+                            "description": "The block's number (its height)",
+                            "minimum": 0,
+                            "title": "Block number",
+                            "type": "integer"
+                          },
+                          "required": true,
+                          "title": "Block number"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "TXN_FINALITY_STATUS": {
+                            "description": "The finality status of the transaction",
+                            "enum": [
+                              "ACCEPTED_ON_L2",
+                              "ACCEPTED_ON_L1"
+                            ],
+                            "title": "Finality status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Finality status"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        }
+                      },
+                      "title": "Common receipt properties",
+                      "type": "object"
+                    },
+                    "contract_address": {
+                      "FELT": {
+                        "description": "A field element. represented by at most 63 hex digits",
+                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                        "title": "Field element",
+                        "type": "string"
+                      },
+                      "description": "The address of the deployed contract",
+                      "required": true,
+                      "title": "Contract address"
+                    },
+                    "type": {
+                      "enum": [
+                        "DEPLOY"
+                      ],
+                      "required": true,
+                      "title": "Deploy",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Deploy Transaction Receipt"
+                },
+                "title": "Deploy transaction receipt"
+              },
+              {
+                "DEPLOY_ACCOUNT_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "block_hash": {
+                          "BLOCK_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Block hash"
+                          },
+                          "required": true,
+                          "title": "Block hash"
+                        },
+                        "block_number": {
+                          "BLOCK_NUMBER": {
+                            "description": "The block's number (its height)",
+                            "minimum": 0,
+                            "title": "Block number",
+                            "type": "integer"
+                          },
+                          "required": true,
+                          "title": "Block number"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "TXN_FINALITY_STATUS": {
+                            "description": "The finality status of the transaction",
+                            "enum": [
+                              "ACCEPTED_ON_L2",
+                              "ACCEPTED_ON_L1"
+                            ],
+                            "title": "Finality status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Finality status"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        }
+                      },
+                      "title": "Common receipt properties",
+                      "type": "object"
+                    },
+                    "contract_address": {
+                      "FELT": {
+                        "description": "A field element. represented by at most 63 hex digits",
+                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                        "title": "Field element",
+                        "type": "string"
+                      },
+                      "description": "The address of the deployed contract",
+                      "required": true,
+                      "title": "Contract address"
+                    },
+                    "type": {
+                      "enum": [
+                        "DEPLOY_ACCOUNT"
+                      ],
+                      "required": true,
+                      "title": "Deploy account",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Deploy Account Transaction Receipt"
+                },
+                "title": "Deploy account transaction receipt"
+              }
+            ],
+            "title": "Transaction Receipt"
+          },
+          "title": "Transaction receipt"
+        },
+        {
+          "PENDING_TXN_RECEIPT": {
+            "oneOf": [
+              {
+                "PENDING_INVOKE_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "PENDING_COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a pending transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "description": "The finality status of the transaction",
+                          "enum": [
+                            "ACCEPTED_ON_L2"
+                          ],
+                          "required": true,
+                          "title": "Finality status",
+                          "type": "string"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        },
+                        "type": {
+                          "TXN_TYPE": {
+                            "description": "The type of the transaction",
+                            "enum": [
+                              "DECLARE",
+                              "DEPLOY",
+                              "DEPLOY_ACCOUNT",
+                              "INVOKE",
+                              "L1_HANDLER"
+                            ],
+                            "title": "Transaction type",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Transaction type"
+                        }
+                      },
+                      "title": "Pending common receipt properties",
+                      "type": "object"
+                    },
+                    "type": {
+                      "enum": [
+                        "INVOKE"
+                      ],
+                      "required": true,
+                      "title": "Type",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Invoke Transaction Receipt"
+                },
+                "title": "Pending Invoke transaction receipt"
+              },
+              {
+                "PENDING_L1_HANDLER_TXN_RECEIPT": {
+                  "description": "receipt for l1 handler transaction",
+                  "properties": {
+                    "PENDING_COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a pending transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "description": "The finality status of the transaction",
+                          "enum": [
+                            "ACCEPTED_ON_L2"
+                          ],
+                          "required": true,
+                          "title": "Finality status",
+                          "type": "string"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        },
+                        "type": {
+                          "TXN_TYPE": {
+                            "description": "The type of the transaction",
+                            "enum": [
+                              "DECLARE",
+                              "DEPLOY",
+                              "DEPLOY_ACCOUNT",
+                              "INVOKE",
+                              "L1_HANDLER"
+                            ],
+                            "title": "Transaction type",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Transaction type"
+                        }
+                      },
+                      "title": "Pending common receipt properties",
+                      "type": "object"
+                    },
+                    "message_hash": {
+                      "NUM_AS_HEX": {
+                        "description": "An integer number in hex format (0x...)",
+                        "pattern": "^0x[a-fA-F0-9]+$",
+                        "title": "Number as hex",
+                        "type": "string"
+                      },
+                      "description": "The message hash as it appears on the L1 core contract",
+                      "required": true,
+                      "title": "Message hash"
+                    },
+                    "type": {
+                      "enum": [
+                        "L1_HANDLER"
+                      ],
+                      "required": true,
+                      "title": "type",
+                      "type": "string"
+                    }
+                  },
+                  "title": "L1 Handler Transaction Receipt"
+                },
+                "title": "Pending L1 handler transaction receipt"
+              },
+              {
+                "PENDING_DECLARE_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "PENDING_COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a pending transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "description": "The finality status of the transaction",
+                          "enum": [
+                            "ACCEPTED_ON_L2"
+                          ],
+                          "required": true,
+                          "title": "Finality status",
+                          "type": "string"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        },
+                        "type": {
+                          "TXN_TYPE": {
+                            "description": "The type of the transaction",
+                            "enum": [
+                              "DECLARE",
+                              "DEPLOY",
+                              "DEPLOY_ACCOUNT",
+                              "INVOKE",
+                              "L1_HANDLER"
+                            ],
+                            "title": "Transaction type",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Transaction type"
+                        }
+                      },
+                      "title": "Pending common receipt properties",
+                      "type": "object"
+                    },
+                    "type": {
+                      "enum": [
+                        "DECLARE"
+                      ],
+                      "required": true,
+                      "title": "Declare",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Declare Transaction Receipt"
+                },
+                "title": "Pending Declare transaction receipt"
+              },
+              {
+                "PENDING_DEPLOY_ACCOUNT_TXN_RECEIPT": {
+                  "description": "",
+                  "properties": {
+                    "PENDING_COMMON_RECEIPT_PROPERTIES": {
+                      "description": "Common properties for a pending transaction receipt",
+                      "properties": {
+                        "actual_fee": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The fee that was charged by the sequencer",
+                          "required": true,
+                          "title": "Actual fee"
+                        },
+                        "events": {
+                          "description": "The events emitted as part of this transaction",
+                          "items": {
+                            "EVENT": {
+                              "description": "A StarkNet event",
+                              "properties": {
+                                "EVENT_CONTENT": {
+                                  "description": "The content of an event",
+                                  "properties": {
+                                    "data": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Data",
+                                      "type": "array"
+                                    },
+                                    "keys": {
+                                      "items": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": true,
+                                      "title": "Keys",
+                                      "type": "array"
+                                    }
+                                  },
+                                  "title": "Event content",
+                                  "type": "object"
+                                },
+                                "from_address": {
+                                  "ADDRESS": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "title": "Address"
+                                  },
+                                  "required": true,
+                                  "title": "From address"
+                                }
+                              },
+                              "title": "Event"
+                            }
+                          },
+                          "required": true,
+                          "title": "Events",
+                          "type": "array"
+                        },
+                        "execution_resources": {
+                          "EXECUTION_RESOURCES": {
+                            "description": "The resources consumed by the transaction",
+                            "properties": {
+                              "bitwise_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of BITWISE builtin instances",
+                                "required": true,
+                                "title": "BITWISE applications"
+                              },
+                              "ec_op_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of EC_OP builtin instances",
+                                "required": true,
+                                "title": "EC_OP applications"
+                              },
+                              "ecdsa_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "the number of ECDSA builtin instances",
+                                "required": true,
+                                "title": "ECDSA applications"
+                              },
+                              "keccak_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of KECCAK builtin instances",
+                                "required": true,
+                                "title": "Keccak applications"
+                              },
+                              "memory_holes": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of unused memory cells (each cell is roughly equivalent to a step)",
+                                "title": "Memory holes"
+                              },
+                              "pedersen_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Pedersen builtin instances",
+                                "required": true,
+                                "title": "Pedersen applications"
+                              },
+                              "poseidon_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Poseidon builtin instances",
+                                "required": true,
+                                "title": "Poseidon applications"
+                              },
+                              "range_check_builtin_applications": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of RANGE_CHECK builtin instances",
+                                "required": true,
+                                "title": "Range check applications"
+                              },
+                              "steps": {
+                                "NUM_AS_HEX": {
+                                  "description": "An integer number in hex format (0x...)",
+                                  "pattern": "^0x[a-fA-F0-9]+$",
+                                  "title": "Number as hex",
+                                  "type": "string"
+                                },
+                                "description": "The number of Cairo steps used",
+                                "required": true,
+                                "title": "Steps"
+                              }
+                            },
+                            "title": "Execution resources",
+                            "type": "object"
+                          },
+                          "description": "The resources consumed by the transaction",
+                          "required": true,
+                          "title": "Execution resources"
+                        },
+                        "execution_status": {
+                          "TXN_EXECUTION_STATUS": {
+                            "description": "The execution status of the transaction",
+                            "enum": [
+                              "SUCCEEDED",
+                              "REVERTED"
+                            ],
+                            "title": "Execution status",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Execution status"
+                        },
+                        "finality_status": {
+                          "description": "The finality status of the transaction",
+                          "enum": [
+                            "ACCEPTED_ON_L2"
+                          ],
+                          "required": true,
+                          "title": "Finality status",
+                          "type": "string"
+                        },
+                        "messages_sent": {
+                          "items": {
+                            "MSG_TO_L1": {
+                              "properties": {
+                                "from_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the L2 contract sending the message",
+                                  "required": true
+                                },
+                                "payload": {
+                                  "description": "The payload of the message",
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": true,
+                                  "title": "Payload",
+                                  "type": "array"
+                                },
+                                "to_address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The target L1 address the message is sent to",
+                                  "required": true,
+                                  "title": "To address"
+                                }
+                              },
+                              "title": "Message to L1",
+                              "type": "object"
+                            }
+                          },
+                          "required": true,
+                          "title": "Messages sent",
+                          "type": "array"
+                        },
+                        "revert_reason": {
+                          "description": "the revert reason for the failed execution",
+                          "name": "revert reason",
+                          "title": "Revert reason",
+                          "type": "string"
+                        },
+                        "transaction_hash": {
+                          "TXN_HASH": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The transaction hash, as assigned in StarkNet",
+                            "title": "Transaction hash"
+                          },
+                          "description": "The hash identifying the transaction",
+                          "required": true,
+                          "title": "Transaction hash"
+                        },
+                        "type": {
+                          "TXN_TYPE": {
+                            "description": "The type of the transaction",
+                            "enum": [
+                              "DECLARE",
+                              "DEPLOY",
+                              "DEPLOY_ACCOUNT",
+                              "INVOKE",
+                              "L1_HANDLER"
+                            ],
+                            "title": "Transaction type",
+                            "type": "string"
+                          },
+                          "required": true,
+                          "title": "Transaction type"
+                        }
+                      },
+                      "title": "Pending common receipt properties",
+                      "type": "object"
+                    },
+                    "contract_address": {
+                      "FELT": {
+                        "description": "A field element. represented by at most 63 hex digits",
+                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                        "title": "Field element",
+                        "type": "string"
+                      },
+                      "description": "The address of the deployed contract",
+                      "required": true,
+                      "title": "Contract address"
+                    },
+                    "type": {
+                      "enum": [
+                        "DEPLOY_ACCOUNT"
+                      ],
+                      "required": true,
+                      "title": "Deploy account",
+                      "type": "string"
+                    }
+                  },
+                  "title": "Deploy Account Transaction Receipt"
+                },
+                "title": "Pending Deploy account transaction receipt"
+              }
+            ],
+            "title": "Transaction Receipt"
+          },
+          "title": "Pending transaction receipt"
+        }
+      ]
+    }
+  },
+  "summary": "Get the transaction receipt by the transaction hash"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "starknet_specVersion",
+  "params": [],
+  "result": {
+    "description": "Semver of Starknet's JSON-RPC spec being used",
+    "name": "result",
+    "required": true,
+    "schema": {
+      "title": "JSON-RPC spec version",
+      "type": "string"
+    }
+  },
+  "summary": "Returns the version of the Starknet JSON-RPC specification being used"
+}

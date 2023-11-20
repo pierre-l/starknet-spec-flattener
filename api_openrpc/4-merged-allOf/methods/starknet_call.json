@@ -1,0 +1,169 @@
+{
+  "description": "Calls a function in a contract and returns the return value.  Using this call will not create a transaction; hence, will not change the state",
+  "errors": [
+    {
+      "CONTRACT_NOT_FOUND": {
+        "code": 20,
+        "message": "Contract not found"
+      }
+    },
+    {
+      "CONTRACT_ERROR": {
+        "code": 40,
+        "data": {
+          "description": "More data about the execution failure",
+          "properties": {
+            "revert_error": {
+              "description": "a string encoding the execution trace up to the point of failure",
+              "title": "revert error",
+              "type": "string"
+            }
+          },
+          "required": "revert_error",
+          "type": "object"
+        },
+        "message": "Contract error"
+      }
+    },
+    {
+      "BLOCK_NOT_FOUND": {
+        "code": 24,
+        "message": "Block not found"
+      }
+    }
+  ],
+  "name": "starknet_call",
+  "params": [
+    {
+      "name": "request",
+      "required": true,
+      "schema": {
+        "FUNCTION_CALL": {
+          "description": "Function call information",
+          "properties": {
+            "calldata": {
+              "description": "The parameters passed to the function",
+              "items": {
+                "FELT": {
+                  "description": "A field element. represented by at most 63 hex digits",
+                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                  "title": "Field element",
+                  "type": "string"
+                }
+              },
+              "required": true,
+              "title": "Calldata",
+              "type": "array"
+            },
+            "contract_address": {
+              "ADDRESS": {
+                "FELT": {
+                  "description": "A field element. represented by at most 63 hex digits",
+                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                  "title": "Field element",
+                  "type": "string"
+                },
+                "title": "Address"
+              },
+              "required": true,
+              "title": "Contract address"
+            },
+            "entry_point_selector": {
+              "FELT": {
+                "description": "A field element. represented by at most 63 hex digits",
+                "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                "title": "Field element",
+                "type": "string"
+              },
+              "required": true,
+              "title": "Entry point selector"
+            }
+          },
+          "title": "Function call",
+          "type": "object"
+        },
+        "title": "Function call"
+      },
+      "summary": "The details of the function call"
+    },
+    {
+      "description": "The hash of the requested block, or number (height) of the requested block, or a block tag, for the block referencing the state or call the transaction on.",
+      "name": "block_id",
+      "required": true,
+      "schema": {
+        "BLOCK_ID": {
+          "description": "Block hash, number or tag",
+          "oneOf": [
+            {
+              "properties": {
+                "block_hash": {
+                  "BLOCK_HASH": {
+                    "FELT": {
+                      "description": "A field element. represented by at most 63 hex digits",
+                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                      "title": "Field element",
+                      "type": "string"
+                    },
+                    "title": "Block hash"
+                  },
+                  "required": true,
+                  "title": "Block hash"
+                }
+              },
+              "title": "Block hash",
+              "type": "object"
+            },
+            {
+              "properties": {
+                "block_number": {
+                  "BLOCK_NUMBER": {
+                    "description": "The block's number (its height)",
+                    "minimum": 0,
+                    "title": "Block number",
+                    "type": "integer"
+                  },
+                  "required": true,
+                  "title": "Block number"
+                }
+              },
+              "title": "Block number",
+              "type": "object"
+            },
+            {
+              "BLOCK_TAG": {
+                "description": "A tag specifying a dynamic reference to a block",
+                "enum": [
+                  "latest",
+                  "pending"
+                ],
+                "title": "Block tag",
+                "type": "string"
+              },
+              "title": "Block tag"
+            }
+          ],
+          "title": "Block id"
+        },
+        "title": "Block id"
+      }
+    }
+  ],
+  "result": {
+    "description": "The function's return value, as defined in the Cairo output",
+    "name": "result",
+    "schema": {
+      "items": {
+        "FELT": {
+          "description": "A field element. represented by at most 63 hex digits",
+          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+          "title": "Field element",
+          "type": "string"
+        }
+      },
+      "title": "Field element",
+      "type": "array"
+    },
+    "summary": "The function's return value"
+  },
+  "summary": "call a starknet function without creating a StarkNet transaction"
+}

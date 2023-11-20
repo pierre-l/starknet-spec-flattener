@@ -1,0 +1,26 @@
+{
+  "errors": [
+    {
+      "NO_BLOCKS": {
+        "code": 32,
+        "message": "There are no blocks"
+      }
+    }
+  ],
+  "name": "starknet_blockNumber",
+  "params": [],
+  "result": {
+    "description": "The latest block number",
+    "name": "result",
+    "schema": {
+      "BLOCK_NUMBER": {
+        "description": "The block's number (its height)",
+        "minimum": 0,
+        "title": "Block number",
+        "type": "integer"
+      },
+      "title": "Block number"
+    }
+  },
+  "summary": "Get the most recent accepted block number"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "starknet_chainId",
+  "params": [],
+  "result": {
+    "description": "The chain id this node is connected to",
+    "name": "result",
+    "schema": {
+      "$ref": {
+        "#/components/schemas/CHAIN_ID": {
+          "description": "StarkNet chain id, given in hex representation.",
+          "pattern": "^0x[a-fA-F0-9]+$",
+          "title": "Chain id",
+          "type": "string"
+        }
+      },
+      "title": "Chain id"
+    }
+  },
+  "summary": "Return the currently configured StarkNet chain id"
+}

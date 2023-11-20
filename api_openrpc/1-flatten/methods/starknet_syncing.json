@@ -1,0 +1,127 @@
+{
+  "name": "starknet_syncing",
+  "params": [],
+  "result": {
+    "description": "The status of the node, if it is currently synchronizing state. FALSE otherwise",
+    "name": "syncing",
+    "schema": {
+      "oneOf": [
+        {
+          "description": "only legal value is FALSE here",
+          "title": "False",
+          "type": "boolean"
+        },
+        {
+          "$ref": {
+            "#/components/schemas/SYNC_STATUS": {
+              "description": "An object describing the node synchronization status",
+              "properties": {
+                "current_block_hash": {
+                  "$ref": {
+                    "#/components/schemas/BLOCK_HASH": {
+                      "$ref": {
+                        "#/components/schemas/FELT": {
+                          "description": "A field element. represented by at most 63 hex digits",
+                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                          "title": "Field element",
+                          "type": "string"
+                        }
+                      },
+                      "title": "Block hash"
+                    }
+                  },
+                  "description": "The hash of the current block being synchronized",
+                  "title": "Current block hash"
+                },
+                "current_block_num": {
+                  "$ref": {
+                    "#/components/schemas/BLOCK_NUMBER": {
+                      "description": "The block's number (its height)",
+                      "minimum": 0,
+                      "title": "Block number",
+                      "type": "integer"
+                    }
+                  },
+                  "description": "The number (height) of the current block being synchronized",
+                  "title": "Current block number"
+                },
+                "highest_block_hash": {
+                  "$ref": {
+                    "#/components/schemas/BLOCK_HASH": {
+                      "$ref": {
+                        "#/components/schemas/FELT": {
+                          "description": "A field element. represented by at most 63 hex digits",
+                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                          "title": "Field element",
+                          "type": "string"
+                        }
+                      },
+                      "title": "Block hash"
+                    }
+                  },
+                  "description": "The hash of the estimated highest block to be synchronized",
+                  "title": "Highest block hash"
+                },
+                "highest_block_num": {
+                  "$ref": {
+                    "#/components/schemas/BLOCK_NUMBER": {
+                      "description": "The block's number (its height)",
+                      "minimum": 0,
+                      "title": "Block number",
+                      "type": "integer"
+                    }
+                  },
+                  "description": "The number (height) of the estimated highest block to be synchronized",
+                  "title": "Highest block number"
+                },
+                "starting_block_hash": {
+                  "$ref": {
+                    "#/components/schemas/BLOCK_HASH": {
+                      "$ref": {
+                        "#/components/schemas/FELT": {
+                          "description": "A field element. represented by at most 63 hex digits",
+                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                          "title": "Field element",
+                          "type": "string"
+                        }
+                      },
+                      "title": "Block hash"
+                    }
+                  },
+                  "description": "The hash of the block from which the sync started",
+                  "title": "Starting block hash"
+                },
+                "starting_block_num": {
+                  "$ref": {
+                    "#/components/schemas/BLOCK_NUMBER": {
+                      "description": "The block's number (its height)",
+                      "minimum": 0,
+                      "title": "Block number",
+                      "type": "integer"
+                    }
+                  },
+                  "description": "The number (height) of the block from which the sync started",
+                  "title": "Starting block number"
+                }
+              },
+              "required": [
+                "starting_block_hash",
+                "starting_block_num",
+                "current_block_hash",
+                "current_block_num",
+                "highest_block_hash",
+                "highest_block_num"
+              ],
+              "title": "Sync status",
+              "type": "object"
+            }
+          },
+          "title": "Sync status"
+        }
+      ],
+      "title": "SyncingStatus"
+    },
+    "summary": "The state of the synchronization, or false if the node is not synchronizing"
+  },
+  "summary": "Returns an object about the sync status, or false if the node is not synching"
+}

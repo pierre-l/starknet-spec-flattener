@@ -1,0 +1,377 @@
+{
+  "description": "Returns all event objects matching the conditions in the provided filter",
+  "errors": [
+    {
+      "PAGE_SIZE_TOO_BIG": {
+        "code": 31,
+        "message": "Requested page size is too big"
+      }
+    },
+    {
+      "INVALID_CONTINUATION_TOKEN": {
+        "code": 33,
+        "message": "The supplied continuation token is invalid or unknown"
+      }
+    },
+    {
+      "BLOCK_NOT_FOUND": {
+        "code": 24,
+        "message": "Block not found"
+      }
+    },
+    {
+      "TOO_MANY_KEYS_IN_FILTER": {
+        "code": 34,
+        "message": "Too many keys provided in a filter"
+      }
+    }
+  ],
+  "name": "starknet_getEvents",
+  "params": [
+    {
+      "name": "filter",
+      "required": true,
+      "schema": {
+        "allOf": [
+          {
+            "EVENT_FILTER": {
+              "description": "An event filter/query",
+              "properties": {
+                "address": {
+                  "ADDRESS": {
+                    "FELT": {
+                      "description": "A field element. represented by at most 63 hex digits",
+                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                      "title": "Field element",
+                      "type": "string"
+                    },
+                    "title": "Address"
+                  },
+                  "title": "from contract"
+                },
+                "from_block": {
+                  "BLOCK_ID": {
+                    "description": "Block hash, number or tag",
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "block_hash": {
+                            "BLOCK_HASH": {
+                              "FELT": {
+                                "description": "A field element. represented by at most 63 hex digits",
+                                "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                "title": "Field element",
+                                "type": "string"
+                              },
+                              "title": "Block hash"
+                            },
+                            "title": "Block hash"
+                          }
+                        },
+                        "required": [
+                          "block_hash"
+                        ],
+                        "title": "Block hash",
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "block_number": {
+                            "BLOCK_NUMBER": {
+                              "description": "The block's number (its height)",
+                              "minimum": 0,
+                              "title": "Block number",
+                              "type": "integer"
+                            },
+                            "title": "Block number"
+                          }
+                        },
+                        "required": [
+                          "block_number"
+                        ],
+                        "title": "Block number",
+                        "type": "object"
+                      },
+                      {
+                        "BLOCK_TAG": {
+                          "description": "A tag specifying a dynamic reference to a block",
+                          "enum": [
+                            "latest",
+                            "pending"
+                          ],
+                          "title": "Block tag",
+                          "type": "string"
+                        },
+                        "title": "Block tag"
+                      }
+                    ],
+                    "title": "Block id"
+                  },
+                  "title": "from block"
+                },
+                "keys": {
+                  "description": "The values used to filter the events",
+                  "items": {
+                    "description": "Per key (by position), designate the possible values to be matched for events to be returned. Empty array designates 'any' value",
+                    "items": {
+                      "FELT": {
+                        "description": "A field element. represented by at most 63 hex digits",
+                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                        "title": "Field element",
+                        "type": "string"
+                      }
+                    },
+                    "title": "Keys",
+                    "type": "array"
+                  },
+                  "title": "Keys",
+                  "type": "array"
+                },
+                "to_block": {
+                  "BLOCK_ID": {
+                    "description": "Block hash, number or tag",
+                    "oneOf": [
+                      {
+                        "properties": {
+                          "block_hash": {
+                            "BLOCK_HASH": {
+                              "FELT": {
+                                "description": "A field element. represented by at most 63 hex digits",
+                                "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                "title": "Field element",
+                                "type": "string"
+                              },
+                              "title": "Block hash"
+                            },
+                            "title": "Block hash"
+                          }
+                        },
+                        "required": [
+                          "block_hash"
+                        ],
+                        "title": "Block hash",
+                        "type": "object"
+                      },
+                      {
+                        "properties": {
+                          "block_number": {
+                            "BLOCK_NUMBER": {
+                              "description": "The block's number (its height)",
+                              "minimum": 0,
+                              "title": "Block number",
+                              "type": "integer"
+                            },
+                            "title": "Block number"
+                          }
+                        },
+                        "required": [
+                          "block_number"
+                        ],
+                        "title": "Block number",
+                        "type": "object"
+                      },
+                      {
+                        "BLOCK_TAG": {
+                          "description": "A tag specifying a dynamic reference to a block",
+                          "enum": [
+                            "latest",
+                            "pending"
+                          ],
+                          "title": "Block tag",
+                          "type": "string"
+                        },
+                        "title": "Block tag"
+                      }
+                    ],
+                    "title": "Block id"
+                  },
+                  "title": "to block"
+                }
+              },
+              "required": [],
+              "title": "Event filter",
+              "type": "object"
+            },
+            "title": "Event filter"
+          },
+          {
+            "RESULT_PAGE_REQUEST": {
+              "properties": {
+                "chunk_size": {
+                  "minimum": 1,
+                  "title": "Chunk size",
+                  "type": "integer"
+                },
+                "continuation_token": {
+                  "description": "The token returned from the previous query. If no token is provided the first page is returned.",
+                  "title": "Continuation token",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "chunk_size"
+              ],
+              "title": "Result page request",
+              "type": "object"
+            },
+            "title": "Result page request"
+          }
+        ],
+        "title": "Events request"
+      },
+      "summary": "The conditions used to filter the returned events"
+    }
+  ],
+  "result": {
+    "description": "All the event objects matching the filter",
+    "name": "events",
+    "schema": {
+      "EVENTS_CHUNK": {
+        "properties": {
+          "continuation_token": {
+            "description": "Use this token in a subsequent query to obtain the next page. Should not appear if there are no more pages.",
+            "title": "Continuation token",
+            "type": "string"
+          },
+          "events": {
+            "items": {
+              "EMITTED_EVENT": {
+                "allOf": [
+                  {
+                    "EVENT": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "from_address": {
+                              "ADDRESS": {
+                                "FELT": {
+                                  "description": "A field element. represented by at most 63 hex digits",
+                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                  "title": "Field element",
+                                  "type": "string"
+                                },
+                                "title": "Address"
+                              },
+                              "title": "From address"
+                            }
+                          },
+                          "required": [
+                            "from_address"
+                          ],
+                          "title": "Event emitter",
+                          "type": "object"
+                        },
+                        {
+                          "EVENT_CONTENT": {
+                            "description": "The content of an event",
+                            "properties": {
+                              "data": {
+                                "items": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  }
+                                },
+                                "title": "Data",
+                                "type": "array"
+                              },
+                              "keys": {
+                                "items": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  }
+                                },
+                                "title": "Keys",
+                                "type": "array"
+                              }
+                            },
+                            "required": [
+                              "keys",
+                              "data"
+                            ],
+                            "title": "Event content",
+                            "type": "object"
+                          },
+                          "title": "Event content"
+                        }
+                      ],
+                      "description": "A StarkNet event",
+                      "title": "Event"
+                    },
+                    "description": "The event information",
+                    "title": "Event"
+                  },
+                  {
+                    "description": "The event emission information",
+                    "properties": {
+                      "block_hash": {
+                        "BLOCK_HASH": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "title": "Block hash"
+                        },
+                        "description": "The hash of the block in which the event was emitted",
+                        "title": "Block hash"
+                      },
+                      "block_number": {
+                        "BLOCK_NUMBER": {
+                          "description": "The block's number (its height)",
+                          "minimum": 0,
+                          "title": "Block number",
+                          "type": "integer"
+                        },
+                        "description": "The number of the block in which the event was emitted",
+                        "title": "Block number"
+                      },
+                      "transaction_hash": {
+                        "TXN_HASH": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The transaction hash, as assigned in StarkNet",
+                          "title": "Transaction hash"
+                        },
+                        "description": "The transaction that emitted the event",
+                        "title": "Transaction hash"
+                      }
+                    },
+                    "required": [
+                      "block_hash",
+                      "block_number",
+                      "transaction_hash"
+                    ],
+                    "title": "Event context",
+                    "type": "object"
+                  }
+                ],
+                "description": "Event information decorated with metadata on where it was emitted / An event emitted as a result of transaction execution",
+                "title": "Emitted event"
+              }
+            },
+            "title": "Matching Events",
+            "type": "array"
+          }
+        },
+        "required": [
+          "events"
+        ],
+        "title": "Events chunk",
+        "type": "object"
+      },
+      "title": "Events chunk"
+    }
+  },
+  "summary": "Returns all events matching the given filter"
+}
