@@ -6,6 +6,8 @@ use serde_json::{Map, Value};
 use std::collections::HashMap;
 use std::{collections::HashSet, fmt::Display};
 
+const SPECS_GIT_TAG: &str = "v0.5.0";
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let mut registry = SchemaRegistry::new();
@@ -122,11 +124,10 @@ impl Pointer {
 
 // TODO Doc
 async fn process(registry: &mut SchemaRegistry, domain: Domain) -> anyhow::Result<()> {
-    let version = "v0.5.0";
     let domain_name = domain.name();
     let url = format!(
         "https://raw.githubusercontent.com/starkware-libs/starknet-specs/{}/api/{}",
-        version,
+        SPECS_GIT_TAG,
         domain.file_name()
     );
 
@@ -364,7 +365,7 @@ fn merge_allofs(obj: &mut Map<String, Value>) -> anyhow::Result<()> {
 fn write_to_file(path: impl AsRef<str>, value: &Value) -> anyhow::Result<()> {
     let path = path.as_ref();
     std::fs::write(
-        &path,
+        path,
         serde_json::to_string_pretty(&value).context("Serialization failed")?,
     )
     .context(format!("Failed to write to file: {}", path))
@@ -534,7 +535,7 @@ mod tests {
 
     #[test]
     fn test_embed_required() {
-        let mut original = json!({
+        let original = json!({
             "properties": {
                 "block_hash": {
                     "BLOCK_HASH": "omitted",
