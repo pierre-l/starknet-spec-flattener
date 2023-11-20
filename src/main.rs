@@ -6,7 +6,7 @@ use serde_json::{Map, Value};
 use std::collections::HashMap;
 use std::{collections::HashSet, fmt::Display};
 
-const SPECS_GIT_TAG: &str = "v0.5.0";
+const SPECS_GIT_TAG: &str = "v0.5.1";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

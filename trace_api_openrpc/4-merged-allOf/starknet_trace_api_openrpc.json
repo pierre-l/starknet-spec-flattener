@@ -1084,6 +1084,7 @@
   },
   "/components/schemas/CALL_TYPE": {
     "enum": [
+      "DELEGATE",
       "LIBRARY_CALL",
       "CALL"
     ],
@@ -1641,8 +1642,7 @@
             "required": true
           },
           "fee_transfer_invocation": {
-            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-            "required": true
+            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
           },
           "state_diff": {
             "STATE_DIFF": {
@@ -1863,7 +1863,6 @@
               }
             },
             "description": "the state diffs induced by the transaction",
-            "required": true,
             "title": "state_diff"
           },
           "type": {
@@ -1875,8 +1874,7 @@
             "type": "string"
           },
           "validate_invocation": {
-            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-            "required": true
+            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
           }
         },
         "type": "object"
@@ -1886,8 +1884,7 @@
         "name": "DECLARE_TXN_TRACE",
         "properties": {
           "fee_transfer_invocation": {
-            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-            "required": true
+            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
           },
           "state_diff": {
             "STATE_DIFF": {
@@ -2108,7 +2105,6 @@
               }
             },
             "description": "the state diffs induced by the transaction",
-            "required": true,
             "title": "state_diff"
           },
           "type": {
@@ -2120,8 +2116,7 @@
             "type": "string"
           },
           "validate_invocation": {
-            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-            "required": true
+            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
           }
         },
         "type": "object"
@@ -2136,7 +2131,250 @@
             "required": true
           },
           "fee_transfer_invocation": {
+            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+          },
+          "state_diff": {
+            "STATE_DIFF": {
+              "STATE_DIFF": {
+                "description": "The change in state applied in this block, given as a mapping of addresses to the new values and/or new contracts",
+                "properties": {
+                  "declared_classes": {
+                    "items": {
+                      "description": "The declared class hash and compiled class hash",
+                      "properties": {
+                        "class_hash": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The hash of the declared class",
+                          "title": "Class hash"
+                        },
+                        "compiled_class_hash": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The Cairo assembly hash corresponding to the declared class",
+                          "title": "Compiled class hash"
+                        }
+                      },
+                      "title": "New classes",
+                      "type": "object"
+                    },
+                    "required": true,
+                    "title": "Declared classes",
+                    "type": "array"
+                  },
+                  "deployed_contracts": {
+                    "items": {
+                      "DEPLOYED_CONTRACT_ITEM": {
+                        "properties": {
+                          "address": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The address of the contract",
+                            "required": true,
+                            "title": "Address"
+                          },
+                          "class_hash": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The hash of the contract code",
+                            "required": true,
+                            "title": "Class hash"
+                          }
+                        },
+                        "title": "Deployed contract item",
+                        "type": "object"
+                      },
+                      "description": "A new contract deployed as part of the state update"
+                    },
+                    "required": true,
+                    "title": "Deployed contracts",
+                    "type": "array"
+                  },
+                  "deprecated_declared_classes": {
+                    "items": {
+                      "FELT": {
+                        "description": "A field element. represented by at most 63 hex digits",
+                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                        "title": "Field element",
+                        "type": "string"
+                      },
+                      "description": "The hash of the declared class"
+                    },
+                    "required": true,
+                    "title": "Deprecated declared classes",
+                    "type": "array"
+                  },
+                  "nonces": {
+                    "items": {
+                      "description": "The updated nonce per contract address",
+                      "properties": {
+                        "contract_address": {
+                          "ADDRESS": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Address"
+                          },
+                          "description": "The address of the contract",
+                          "title": "Contract address"
+                        },
+                        "nonce": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The nonce for the given address at the end of the block",
+                          "title": "Nonce"
+                        }
+                      },
+                      "title": "Nonce update",
+                      "type": "object"
+                    },
+                    "required": true,
+                    "title": "Nonces",
+                    "type": "array"
+                  },
+                  "replaced_classes": {
+                    "items": {
+                      "description": "The list of contracts whose class was replaced",
+                      "properties": {
+                        "class_hash": {
+                          "FELT": {
+                            "description": "A field element. represented by at most 63 hex digits",
+                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                            "title": "Field element",
+                            "type": "string"
+                          },
+                          "description": "The new class hash",
+                          "title": "Class hash"
+                        },
+                        "contract_address": {
+                          "ADDRESS": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "title": "Address"
+                          },
+                          "description": "The address of the contract whose class was replaced",
+                          "title": "Contract address"
+                        }
+                      },
+                      "title": "Replaced class",
+                      "type": "object"
+                    },
+                    "required": true,
+                    "title": "Replaced classes",
+                    "type": "array"
+                  },
+                  "storage_diffs": {
+                    "items": {
+                      "CONTRACT_STORAGE_DIFF_ITEM": {
+                        "properties": {
+                          "address": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The contract address for which the storage changed",
+                            "required": true,
+                            "title": "Address"
+                          },
+                          "storage_entries": {
+                            "description": "The changes in the storage of the contract",
+                            "items": {
+                              "properties": {
+                                "key": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The key of the changed value",
+                                  "title": "Key"
+                                },
+                                "value": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The new value applied to the given address",
+                                  "title": "Value"
+                                }
+                              },
+                              "title": "Storage diff item",
+                              "type": "object"
+                            },
+                            "required": true,
+                            "title": "Storage entries",
+                            "type": "array"
+                          }
+                        },
+                        "title": "Contract storage diff item",
+                        "type": "object"
+                      },
+                      "description": "The changes in the storage per contract address"
+                    },
+                    "required": true,
+                    "title": "Storage diffs",
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "description": "the state diffs induced by the transaction",
+            "title": "state_diff"
+          },
+          "type": {
+            "enum": [
+              "DEPLOY_ACCOUNT"
+            ],
+            "required": true,
+            "title": "Type",
+            "type": "string"
+          },
+          "validate_invocation": {
+            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+          }
+        },
+        "type": "object"
+      },
+      {
+        "description": "the execution trace of an L1 handler transaction",
+        "name": "L1_HANDLER_TXN_TRACE",
+        "properties": {
+          "function_invocation": {
             "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
+            "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
             "required": true
           },
           "state_diff": {
@@ -2358,32 +2596,7 @@
               }
             },
             "description": "the state diffs induced by the transaction",
-            "required": true,
             "title": "state_diff"
-          },
-          "type": {
-            "enum": [
-              "DEPLOY_ACCOUNT"
-            ],
-            "required": true,
-            "title": "Type",
-            "type": "string"
-          },
-          "validate_invocation": {
-            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-            "required": true
-          }
-        },
-        "type": "object"
-      },
-      {
-        "description": "the execution trace of an L1 handler transaction",
-        "name": "L1_HANDLER_TXN_TRACE",
-        "properties": {
-          "function_invocation": {
-            "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-            "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
-            "required": true
           },
           "type": {
             "enum": [
@@ -3586,8 +3799,7 @@
                           "required": true
                         },
                         "fee_transfer_invocation": {
-                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                          "required": true
+                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                         },
                         "state_diff": {
                           "STATE_DIFF": {
@@ -3808,7 +4020,6 @@
                             }
                           },
                           "description": "the state diffs induced by the transaction",
-                          "required": true,
                           "title": "state_diff"
                         },
                         "type": {
@@ -3820,8 +4031,7 @@
                           "type": "string"
                         },
                         "validate_invocation": {
-                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                          "required": true
+                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                         }
                       },
                       "type": "object"
@@ -3831,8 +4041,7 @@
                       "name": "DECLARE_TXN_TRACE",
                       "properties": {
                         "fee_transfer_invocation": {
-                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                          "required": true
+                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                         },
                         "state_diff": {
                           "STATE_DIFF": {
@@ -4053,7 +4262,6 @@
                             }
                           },
                           "description": "the state diffs induced by the transaction",
-                          "required": true,
                           "title": "state_diff"
                         },
                         "type": {
@@ -4065,8 +4273,7 @@
                           "type": "string"
                         },
                         "validate_invocation": {
-                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                          "required": true
+                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                         }
                       },
                       "type": "object"
@@ -4081,7 +4288,250 @@
                           "required": true
                         },
                         "fee_transfer_invocation": {
+                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+                        },
+                        "state_diff": {
+                          "STATE_DIFF": {
+                            "STATE_DIFF": {
+                              "description": "The change in state applied in this block, given as a mapping of addresses to the new values and/or new contracts",
+                              "properties": {
+                                "declared_classes": {
+                                  "items": {
+                                    "description": "The declared class hash and compiled class hash",
+                                    "properties": {
+                                      "class_hash": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The hash of the declared class",
+                                        "title": "Class hash"
+                                      },
+                                      "compiled_class_hash": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The Cairo assembly hash corresponding to the declared class",
+                                        "title": "Compiled class hash"
+                                      }
+                                    },
+                                    "title": "New classes",
+                                    "type": "object"
+                                  },
+                                  "required": true,
+                                  "title": "Declared classes",
+                                  "type": "array"
+                                },
+                                "deployed_contracts": {
+                                  "items": {
+                                    "DEPLOYED_CONTRACT_ITEM": {
+                                      "properties": {
+                                        "address": {
+                                          "FELT": {
+                                            "description": "A field element. represented by at most 63 hex digits",
+                                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                            "title": "Field element",
+                                            "type": "string"
+                                          },
+                                          "description": "The address of the contract",
+                                          "required": true,
+                                          "title": "Address"
+                                        },
+                                        "class_hash": {
+                                          "FELT": {
+                                            "description": "A field element. represented by at most 63 hex digits",
+                                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                            "title": "Field element",
+                                            "type": "string"
+                                          },
+                                          "description": "The hash of the contract code",
+                                          "required": true,
+                                          "title": "Class hash"
+                                        }
+                                      },
+                                      "title": "Deployed contract item",
+                                      "type": "object"
+                                    },
+                                    "description": "A new contract deployed as part of the state update"
+                                  },
+                                  "required": true,
+                                  "title": "Deployed contracts",
+                                  "type": "array"
+                                },
+                                "deprecated_declared_classes": {
+                                  "items": {
+                                    "FELT": {
+                                      "description": "A field element. represented by at most 63 hex digits",
+                                      "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                      "title": "Field element",
+                                      "type": "string"
+                                    },
+                                    "description": "The hash of the declared class"
+                                  },
+                                  "required": true,
+                                  "title": "Deprecated declared classes",
+                                  "type": "array"
+                                },
+                                "nonces": {
+                                  "items": {
+                                    "description": "The updated nonce per contract address",
+                                    "properties": {
+                                      "contract_address": {
+                                        "ADDRESS": {
+                                          "FELT": {
+                                            "description": "A field element. represented by at most 63 hex digits",
+                                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                            "title": "Field element",
+                                            "type": "string"
+                                          },
+                                          "title": "Address"
+                                        },
+                                        "description": "The address of the contract",
+                                        "title": "Contract address"
+                                      },
+                                      "nonce": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The nonce for the given address at the end of the block",
+                                        "title": "Nonce"
+                                      }
+                                    },
+                                    "title": "Nonce update",
+                                    "type": "object"
+                                  },
+                                  "required": true,
+                                  "title": "Nonces",
+                                  "type": "array"
+                                },
+                                "replaced_classes": {
+                                  "items": {
+                                    "description": "The list of contracts whose class was replaced",
+                                    "properties": {
+                                      "class_hash": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The new class hash",
+                                        "title": "Class hash"
+                                      },
+                                      "contract_address": {
+                                        "ADDRESS": {
+                                          "FELT": {
+                                            "description": "A field element. represented by at most 63 hex digits",
+                                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                            "title": "Field element",
+                                            "type": "string"
+                                          },
+                                          "title": "Address"
+                                        },
+                                        "description": "The address of the contract whose class was replaced",
+                                        "title": "Contract address"
+                                      }
+                                    },
+                                    "title": "Replaced class",
+                                    "type": "object"
+                                  },
+                                  "required": true,
+                                  "title": "Replaced classes",
+                                  "type": "array"
+                                },
+                                "storage_diffs": {
+                                  "items": {
+                                    "CONTRACT_STORAGE_DIFF_ITEM": {
+                                      "properties": {
+                                        "address": {
+                                          "FELT": {
+                                            "description": "A field element. represented by at most 63 hex digits",
+                                            "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                            "title": "Field element",
+                                            "type": "string"
+                                          },
+                                          "description": "The contract address for which the storage changed",
+                                          "required": true,
+                                          "title": "Address"
+                                        },
+                                        "storage_entries": {
+                                          "description": "The changes in the storage of the contract",
+                                          "items": {
+                                            "properties": {
+                                              "key": {
+                                                "FELT": {
+                                                  "description": "A field element. represented by at most 63 hex digits",
+                                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                                  "title": "Field element",
+                                                  "type": "string"
+                                                },
+                                                "description": "The key of the changed value",
+                                                "title": "Key"
+                                              },
+                                              "value": {
+                                                "FELT": {
+                                                  "description": "A field element. represented by at most 63 hex digits",
+                                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                                  "title": "Field element",
+                                                  "type": "string"
+                                                },
+                                                "description": "The new value applied to the given address",
+                                                "title": "Value"
+                                              }
+                                            },
+                                            "title": "Storage diff item",
+                                            "type": "object"
+                                          },
+                                          "required": true,
+                                          "title": "Storage entries",
+                                          "type": "array"
+                                        }
+                                      },
+                                      "title": "Contract storage diff item",
+                                      "type": "object"
+                                    },
+                                    "description": "The changes in the storage per contract address"
+                                  },
+                                  "required": true,
+                                  "title": "Storage diffs",
+                                  "type": "array"
+                                }
+                              },
+                              "type": "object"
+                            }
+                          },
+                          "description": "the state diffs induced by the transaction",
+                          "title": "state_diff"
+                        },
+                        "type": {
+                          "enum": [
+                            "DEPLOY_ACCOUNT"
+                          ],
+                          "required": true,
+                          "title": "Type",
+                          "type": "string"
+                        },
+                        "validate_invocation": {
+                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    {
+                      "description": "the execution trace of an L1 handler transaction",
+                      "name": "L1_HANDLER_TXN_TRACE",
+                      "properties": {
+                        "function_invocation": {
                           "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
+                          "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
                           "required": true
                         },
                         "state_diff": {
@@ -4303,32 +4753,7 @@
                             }
                           },
                           "description": "the state diffs induced by the transaction",
-                          "required": true,
                           "title": "state_diff"
-                        },
-                        "type": {
-                          "enum": [
-                            "DEPLOY_ACCOUNT"
-                          ],
-                          "required": true,
-                          "title": "Type",
-                          "type": "string"
-                        },
-                        "validate_invocation": {
-                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                          "required": true
-                        }
-                      },
-                      "type": "object"
-                    },
-                    {
-                      "description": "the execution trace of an L1 handler transaction",
-                      "name": "L1_HANDLER_TXN_TRACE",
-                      "properties": {
-                        "function_invocation": {
-                          "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                          "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
-                          "required": true
                         },
                         "type": {
                           "enum": [
@@ -4463,8 +4888,7 @@
                         "required": true
                       },
                       "fee_transfer_invocation": {
-                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                        "required": true
+                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                       },
                       "state_diff": {
                         "STATE_DIFF": {
@@ -4685,7 +5109,6 @@
                           }
                         },
                         "description": "the state diffs induced by the transaction",
-                        "required": true,
                         "title": "state_diff"
                       },
                       "type": {
@@ -4697,8 +5120,7 @@
                         "type": "string"
                       },
                       "validate_invocation": {
-                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                        "required": true
+                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                       }
                     },
                     "type": "object"
@@ -4708,8 +5130,7 @@
                     "name": "DECLARE_TXN_TRACE",
                     "properties": {
                       "fee_transfer_invocation": {
-                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                        "required": true
+                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                       },
                       "state_diff": {
                         "STATE_DIFF": {
@@ -4930,7 +5351,6 @@
                           }
                         },
                         "description": "the state diffs induced by the transaction",
-                        "required": true,
                         "title": "state_diff"
                       },
                       "type": {
@@ -4942,8 +5362,7 @@
                         "type": "string"
                       },
                       "validate_invocation": {
-                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                        "required": true
+                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                       }
                     },
                     "type": "object"
@@ -4958,7 +5377,250 @@
                         "required": true
                       },
                       "fee_transfer_invocation": {
+                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+                      },
+                      "state_diff": {
+                        "STATE_DIFF": {
+                          "STATE_DIFF": {
+                            "description": "The change in state applied in this block, given as a mapping of addresses to the new values and/or new contracts",
+                            "properties": {
+                              "declared_classes": {
+                                "items": {
+                                  "description": "The declared class hash and compiled class hash",
+                                  "properties": {
+                                    "class_hash": {
+                                      "FELT": {
+                                        "description": "A field element. represented by at most 63 hex digits",
+                                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                        "title": "Field element",
+                                        "type": "string"
+                                      },
+                                      "description": "The hash of the declared class",
+                                      "title": "Class hash"
+                                    },
+                                    "compiled_class_hash": {
+                                      "FELT": {
+                                        "description": "A field element. represented by at most 63 hex digits",
+                                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                        "title": "Field element",
+                                        "type": "string"
+                                      },
+                                      "description": "The Cairo assembly hash corresponding to the declared class",
+                                      "title": "Compiled class hash"
+                                    }
+                                  },
+                                  "title": "New classes",
+                                  "type": "object"
+                                },
+                                "required": true,
+                                "title": "Declared classes",
+                                "type": "array"
+                              },
+                              "deployed_contracts": {
+                                "items": {
+                                  "DEPLOYED_CONTRACT_ITEM": {
+                                    "properties": {
+                                      "address": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The address of the contract",
+                                        "required": true,
+                                        "title": "Address"
+                                      },
+                                      "class_hash": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The hash of the contract code",
+                                        "required": true,
+                                        "title": "Class hash"
+                                      }
+                                    },
+                                    "title": "Deployed contract item",
+                                    "type": "object"
+                                  },
+                                  "description": "A new contract deployed as part of the state update"
+                                },
+                                "required": true,
+                                "title": "Deployed contracts",
+                                "type": "array"
+                              },
+                              "deprecated_declared_classes": {
+                                "items": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The hash of the declared class"
+                                },
+                                "required": true,
+                                "title": "Deprecated declared classes",
+                                "type": "array"
+                              },
+                              "nonces": {
+                                "items": {
+                                  "description": "The updated nonce per contract address",
+                                  "properties": {
+                                    "contract_address": {
+                                      "ADDRESS": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "title": "Address"
+                                      },
+                                      "description": "The address of the contract",
+                                      "title": "Contract address"
+                                    },
+                                    "nonce": {
+                                      "FELT": {
+                                        "description": "A field element. represented by at most 63 hex digits",
+                                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                        "title": "Field element",
+                                        "type": "string"
+                                      },
+                                      "description": "The nonce for the given address at the end of the block",
+                                      "title": "Nonce"
+                                    }
+                                  },
+                                  "title": "Nonce update",
+                                  "type": "object"
+                                },
+                                "required": true,
+                                "title": "Nonces",
+                                "type": "array"
+                              },
+                              "replaced_classes": {
+                                "items": {
+                                  "description": "The list of contracts whose class was replaced",
+                                  "properties": {
+                                    "class_hash": {
+                                      "FELT": {
+                                        "description": "A field element. represented by at most 63 hex digits",
+                                        "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                        "title": "Field element",
+                                        "type": "string"
+                                      },
+                                      "description": "The new class hash",
+                                      "title": "Class hash"
+                                    },
+                                    "contract_address": {
+                                      "ADDRESS": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "title": "Address"
+                                      },
+                                      "description": "The address of the contract whose class was replaced",
+                                      "title": "Contract address"
+                                    }
+                                  },
+                                  "title": "Replaced class",
+                                  "type": "object"
+                                },
+                                "required": true,
+                                "title": "Replaced classes",
+                                "type": "array"
+                              },
+                              "storage_diffs": {
+                                "items": {
+                                  "CONTRACT_STORAGE_DIFF_ITEM": {
+                                    "properties": {
+                                      "address": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The contract address for which the storage changed",
+                                        "required": true,
+                                        "title": "Address"
+                                      },
+                                      "storage_entries": {
+                                        "description": "The changes in the storage of the contract",
+                                        "items": {
+                                          "properties": {
+                                            "key": {
+                                              "FELT": {
+                                                "description": "A field element. represented by at most 63 hex digits",
+                                                "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                                "title": "Field element",
+                                                "type": "string"
+                                              },
+                                              "description": "The key of the changed value",
+                                              "title": "Key"
+                                            },
+                                            "value": {
+                                              "FELT": {
+                                                "description": "A field element. represented by at most 63 hex digits",
+                                                "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                                "title": "Field element",
+                                                "type": "string"
+                                              },
+                                              "description": "The new value applied to the given address",
+                                              "title": "Value"
+                                            }
+                                          },
+                                          "title": "Storage diff item",
+                                          "type": "object"
+                                        },
+                                        "required": true,
+                                        "title": "Storage entries",
+                                        "type": "array"
+                                      }
+                                    },
+                                    "title": "Contract storage diff item",
+                                    "type": "object"
+                                  },
+                                  "description": "The changes in the storage per contract address"
+                                },
+                                "required": true,
+                                "title": "Storage diffs",
+                                "type": "array"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "description": "the state diffs induced by the transaction",
+                        "title": "state_diff"
+                      },
+                      "type": {
+                        "enum": [
+                          "DEPLOY_ACCOUNT"
+                        ],
+                        "required": true,
+                        "title": "Type",
+                        "type": "string"
+                      },
+                      "validate_invocation": {
+                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "description": "the execution trace of an L1 handler transaction",
+                    "name": "L1_HANDLER_TXN_TRACE",
+                    "properties": {
+                      "function_invocation": {
                         "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
+                        "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
                         "required": true
                       },
                       "state_diff": {
@@ -5180,32 +5842,7 @@
                           }
                         },
                         "description": "the state diffs induced by the transaction",
-                        "required": true,
                         "title": "state_diff"
-                      },
-                      "type": {
-                        "enum": [
-                          "DEPLOY_ACCOUNT"
-                        ],
-                        "required": true,
-                        "title": "Type",
-                        "type": "string"
-                      },
-                      "validate_invocation": {
-                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                        "required": true
-                      }
-                    },
-                    "type": "object"
-                  },
-                  {
-                    "description": "the execution trace of an L1 handler transaction",
-                    "name": "L1_HANDLER_TXN_TRACE",
-                    "properties": {
-                      "function_invocation": {
-                        "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                        "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
-                        "required": true
                       },
                       "type": {
                         "enum": [
@@ -5318,8 +5955,7 @@
                   "required": true
                 },
                 "fee_transfer_invocation": {
-                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                  "required": true
+                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                 },
                 "state_diff": {
                   "STATE_DIFF": {
@@ -5540,7 +6176,6 @@
                     }
                   },
                   "description": "the state diffs induced by the transaction",
-                  "required": true,
                   "title": "state_diff"
                 },
                 "type": {
@@ -5552,8 +6187,7 @@
                   "type": "string"
                 },
                 "validate_invocation": {
-                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                  "required": true
+                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                 }
               },
               "type": "object"
@@ -5563,8 +6197,7 @@
               "name": "DECLARE_TXN_TRACE",
               "properties": {
                 "fee_transfer_invocation": {
-                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                  "required": true
+                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                 },
                 "state_diff": {
                   "STATE_DIFF": {
@@ -5785,7 +6418,6 @@
                     }
                   },
                   "description": "the state diffs induced by the transaction",
-                  "required": true,
                   "title": "state_diff"
                 },
                 "type": {
@@ -5797,8 +6429,7 @@
                   "type": "string"
                 },
                 "validate_invocation": {
-                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                  "required": true
+                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
                 }
               },
               "type": "object"
@@ -5813,7 +6444,250 @@
                   "required": true
                 },
                 "fee_transfer_invocation": {
+                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+                },
+                "state_diff": {
+                  "STATE_DIFF": {
+                    "STATE_DIFF": {
+                      "description": "The change in state applied in this block, given as a mapping of addresses to the new values and/or new contracts",
+                      "properties": {
+                        "declared_classes": {
+                          "items": {
+                            "description": "The declared class hash and compiled class hash",
+                            "properties": {
+                              "class_hash": {
+                                "FELT": {
+                                  "description": "A field element. represented by at most 63 hex digits",
+                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                  "title": "Field element",
+                                  "type": "string"
+                                },
+                                "description": "The hash of the declared class",
+                                "title": "Class hash"
+                              },
+                              "compiled_class_hash": {
+                                "FELT": {
+                                  "description": "A field element. represented by at most 63 hex digits",
+                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                  "title": "Field element",
+                                  "type": "string"
+                                },
+                                "description": "The Cairo assembly hash corresponding to the declared class",
+                                "title": "Compiled class hash"
+                              }
+                            },
+                            "title": "New classes",
+                            "type": "object"
+                          },
+                          "required": true,
+                          "title": "Declared classes",
+                          "type": "array"
+                        },
+                        "deployed_contracts": {
+                          "items": {
+                            "DEPLOYED_CONTRACT_ITEM": {
+                              "properties": {
+                                "address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The address of the contract",
+                                  "required": true,
+                                  "title": "Address"
+                                },
+                                "class_hash": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The hash of the contract code",
+                                  "required": true,
+                                  "title": "Class hash"
+                                }
+                              },
+                              "title": "Deployed contract item",
+                              "type": "object"
+                            },
+                            "description": "A new contract deployed as part of the state update"
+                          },
+                          "required": true,
+                          "title": "Deployed contracts",
+                          "type": "array"
+                        },
+                        "deprecated_declared_classes": {
+                          "items": {
+                            "FELT": {
+                              "description": "A field element. represented by at most 63 hex digits",
+                              "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                              "title": "Field element",
+                              "type": "string"
+                            },
+                            "description": "The hash of the declared class"
+                          },
+                          "required": true,
+                          "title": "Deprecated declared classes",
+                          "type": "array"
+                        },
+                        "nonces": {
+                          "items": {
+                            "description": "The updated nonce per contract address",
+                            "properties": {
+                              "contract_address": {
+                                "ADDRESS": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "title": "Address"
+                                },
+                                "description": "The address of the contract",
+                                "title": "Contract address"
+                              },
+                              "nonce": {
+                                "FELT": {
+                                  "description": "A field element. represented by at most 63 hex digits",
+                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                  "title": "Field element",
+                                  "type": "string"
+                                },
+                                "description": "The nonce for the given address at the end of the block",
+                                "title": "Nonce"
+                              }
+                            },
+                            "title": "Nonce update",
+                            "type": "object"
+                          },
+                          "required": true,
+                          "title": "Nonces",
+                          "type": "array"
+                        },
+                        "replaced_classes": {
+                          "items": {
+                            "description": "The list of contracts whose class was replaced",
+                            "properties": {
+                              "class_hash": {
+                                "FELT": {
+                                  "description": "A field element. represented by at most 63 hex digits",
+                                  "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                  "title": "Field element",
+                                  "type": "string"
+                                },
+                                "description": "The new class hash",
+                                "title": "Class hash"
+                              },
+                              "contract_address": {
+                                "ADDRESS": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "title": "Address"
+                                },
+                                "description": "The address of the contract whose class was replaced",
+                                "title": "Contract address"
+                              }
+                            },
+                            "title": "Replaced class",
+                            "type": "object"
+                          },
+                          "required": true,
+                          "title": "Replaced classes",
+                          "type": "array"
+                        },
+                        "storage_diffs": {
+                          "items": {
+                            "CONTRACT_STORAGE_DIFF_ITEM": {
+                              "properties": {
+                                "address": {
+                                  "FELT": {
+                                    "description": "A field element. represented by at most 63 hex digits",
+                                    "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                    "title": "Field element",
+                                    "type": "string"
+                                  },
+                                  "description": "The contract address for which the storage changed",
+                                  "required": true,
+                                  "title": "Address"
+                                },
+                                "storage_entries": {
+                                  "description": "The changes in the storage of the contract",
+                                  "items": {
+                                    "properties": {
+                                      "key": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The key of the changed value",
+                                        "title": "Key"
+                                      },
+                                      "value": {
+                                        "FELT": {
+                                          "description": "A field element. represented by at most 63 hex digits",
+                                          "pattern": "^0x(0|[a-fA-F1-9]{1}[a-fA-F0-9]{0,62})$",
+                                          "title": "Field element",
+                                          "type": "string"
+                                        },
+                                        "description": "The new value applied to the given address",
+                                        "title": "Value"
+                                      }
+                                    },
+                                    "title": "Storage diff item",
+                                    "type": "object"
+                                  },
+                                  "required": true,
+                                  "title": "Storage entries",
+                                  "type": "array"
+                                }
+                              },
+                              "title": "Contract storage diff item",
+                              "type": "object"
+                            },
+                            "description": "The changes in the storage per contract address"
+                          },
+                          "required": true,
+                          "title": "Storage diffs",
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "description": "the state diffs induced by the transaction",
+                  "title": "state_diff"
+                },
+                "type": {
+                  "enum": [
+                    "DEPLOY_ACCOUNT"
+                  ],
+                  "required": true,
+                  "title": "Type",
+                  "type": "string"
+                },
+                "validate_invocation": {
+                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_"
+                }
+              },
+              "type": "object"
+            },
+            {
+              "description": "the execution trace of an L1 handler transaction",
+              "name": "L1_HANDLER_TXN_TRACE",
+              "properties": {
+                "function_invocation": {
                   "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
+                  "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
                   "required": true
                 },
                 "state_diff": {
@@ -6035,32 +6909,7 @@
                     }
                   },
                   "description": "the state diffs induced by the transaction",
-                  "required": true,
                   "title": "state_diff"
-                },
-                "type": {
-                  "enum": [
-                    "DEPLOY_ACCOUNT"
-                  ],
-                  "required": true,
-                  "title": "Type",
-                  "type": "string"
-                },
-                "validate_invocation": {
-                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                  "required": true
-                }
-              },
-              "type": "object"
-            },
-            {
-              "description": "the execution trace of an L1 handler transaction",
-              "name": "L1_HANDLER_TXN_TRACE",
-              "properties": {
-                "function_invocation": {
-                  "FUNCTION_INVOCATION": "_RECURSIVE_TYPE_SKIPPED_",
-                  "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)",
-                  "required": true
                 },
                 "type": {
                   "enum": [

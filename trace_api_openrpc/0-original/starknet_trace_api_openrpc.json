@@ -45,6 +45,7 @@
       },
       "CALL_TYPE": {
         "enum": [
+          "DELEGATE",
           "LIBRARY_CALL",
           "CALL"
         ],
@@ -241,11 +242,8 @@
               }
             },
             "required": [
-              "validate_invocation",
-              "execute_invocation",
-              "fee_transfer_invocation",
-              "state_diff",
-              "type"
+              "type",
+              "execute_invocation"
             ],
             "type": "object"
           },
@@ -273,9 +271,6 @@
               }
             },
             "required": [
-              "validate_invocation",
-              "fee_transfer_invocation",
-              "state_diff",
               "type"
             ],
             "type": "object"
@@ -308,11 +303,8 @@
               }
             },
             "required": [
-              "validate_invocation",
-              "constructor_invocation",
-              "fee_transfer_invocation",
-              "state_diff",
-              "type"
+              "type",
+              "constructor_invocation"
             ],
             "type": "object"
           },
@@ -324,6 +316,11 @@
                 "$ref": "#/components/schemas/FUNCTION_INVOCATION",
                 "description": "the trace of the __execute__ call or constructor call, depending on the transaction type (none for declare transactions)"
               },
+              "state_diff": {
+                "$ref": "#/components/schemas/STATE_DIFF",
+                "description": "the state diffs induced by the transaction",
+                "title": "state_diff"
+              },
               "type": {
                 "enum": [
                   "L1_HANDLER"
@@ -333,8 +330,8 @@
               }
             },
             "required": [
-              "function_invocation",
-              "type"
+              "type",
+              "function_invocation"
             ],
             "type": "object"
           }
@@ -345,7 +342,7 @@
   "info": {
     "license": {},
     "title": "StarkNet Trace API",
-    "version": "0.5.0"
+    "version": "0.5.1"
   },
   "methods": [
     {
