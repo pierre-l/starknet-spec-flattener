@@ -1,10 +1,10 @@
 mod all_of;
 
 use crate::all_of::{AllOfInput, MergedAllOf};
-use anyhow::{Context, bail};
-use std::{fmt::Display, collections::HashSet};
+use anyhow::{bail, Context};
 use serde_json::{Map, Value};
 use std::collections::HashMap;
+use std::{collections::HashSet, fmt::Display};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -94,7 +94,7 @@ impl Pointer {
             let file_path = chunks[0];
             let schema_path = chunks[1];
 
-            let domain = {              
+            let domain = {
                 if file_path.contains(&Domain::Api.file_name()) {
                     Domain::Api
                 } else if file_path.contains(&Domain::TraceApi.file_name()) {
@@ -126,24 +126,31 @@ async fn process(registry: &mut SchemaRegistry, domain: Domain) -> anyhow::Resul
     let domain_name = domain.name();
     let url = format!(
         "https://raw.githubusercontent.com/starkware-libs/starknet-specs/{}/api/{}",
-        version, domain.file_name()
+        version,
+        domain.file_name()
     );
 
     let mut root = fetch_spec_file(&url).await?;
-    write_to_file(format!("{domain_name}/0-original/{}", domain.file_name()), &root)?;
+    write_to_file(
+        format!("{domain_name}/0-original/{}", domain.file_name()),
+        &root,
+    )?;
 
     // Flatten the $ref pointers into objects, retrieve a pointer->definition map.
     flatten_openrpc_spec(registry, domain, &mut root)?;
 
     let flattened_schemas = {
-        // TODO Collect?
-        let mut result = Map::new();
-        registry.schemas.iter()
-        .filter(|(pointer, _schema)| pointer.domain == domain)
-        .for_each(|(pointer, schema)| {
-            result.insert(pointer.path.clone(), schema.clone());
-        });
-        result
+        registry
+            .schemas
+            .iter()
+            .filter_map(|(pointer, schema)| {
+                if pointer.domain == domain {
+                    Some((pointer.path.clone(), schema.clone()))
+                } else {
+                    None
+                }
+            })
+            .collect::<Map<String, Value>>()
     };
 
     // Sort the top-level fields so they're ordered by pointer (section, then name)
@@ -198,7 +205,10 @@ fn write_output(domain: Domain, step_name: &str, result: Map<String, Value>) -> 
         });
 
     // Write the whole file
-    write_to_file(format!("{}/{}", directory, domain.file_name()), &Value::Object(result))
+    write_to_file(
+        format!("{}/{}", directory, domain.file_name()),
+        &Value::Object(result),
+    )
 }
 
 /// Reconstructs the `Map`, sorting the fields by their key.
@@ -208,7 +218,11 @@ fn sort_map_fields(flattened_schemas: Map<String, Value>) -> Map<String, Value> 
     serde_json::Map::from_iter(raw)
 }
 
-fn flatten_openrpc_spec(registry: &mut SchemaRegistry, domain: Domain, root: &mut Value) -> anyhow::Result<()> {
+fn flatten_openrpc_spec(
+    registry: &mut SchemaRegistry,
+    domain: Domain,
+    root: &mut Value,
+) -> anyhow::Result<()> {
     flatten_refs(registry, domain, root, "/components/errors")?;
     flatten_refs(registry, domain, root, "/components/schemas")?;
 
@@ -366,9 +380,19 @@ fn write_to_file(path: impl AsRef<str>, value: &Value) -> anyhow::Result<()> {
 /// * the values don't fit the expected schema (eg: $refs are anything else than strings and objects,
 ///     or the pointer value is formatted in an unexpected way)
 /// * a flattening pass doesn't result in fewer schemas to flatten (eg: there's a $ref cycle).
-fn flatten_refs(registry: &mut SchemaRegistry, domain: Domain, root: &Value, pointer: &str) -> anyhow::Result<()> {
+fn flatten_refs(
+    registry: &mut SchemaRegistry,
+    domain: Domain,
+    root: &Value,
+    pointer: &str,
+) -> anyhow::Result<()> {
     let reference_prefix = "#".to_string() + pointer + "/";
-    let mut schemas = root.pointer(pointer).context("Pointer not found")?.as_object().context("Pointer does not point at an object")?.clone();
+    let mut schemas = root
+        .pointer(pointer)
+        .context("Pointer not found")?
+        .as_object()
+        .context("Pointer does not point at an object")?
+        .clone();
 
     let mut schemas_left = usize::MAX;
     while schemas_left > 0 {
@@ -381,7 +405,7 @@ fn flatten_refs(registry: &mut SchemaRegistry, domain: Domain, root: &Value, poi
                     .any(|(key, value)| key == "$ref" && value.as_str().is_some())
                 {
                     Some(name.clone())
-                } else if name == "FUNCTION_INVOCATION"{
+                } else if name == "FUNCTION_INVOCATION" {
                     // Recursive type, skip.
                     *definition = Value::String("_RECURSIVE_TYPE_SKIPPED_".to_string());
                     Some(name.clone())
@@ -392,40 +416,50 @@ fn flatten_refs(registry: &mut SchemaRegistry, domain: Domain, root: &Value, poi
             .collect::<Vec<String>>();
 
         for flat in flat {
-            let definition = schemas.remove(flat.as_str()).context("No way we can't find the name of a schema that we just collected. That's a bug.")?;
-            let raw_pointer = reference_prefix.clone()+&flat;
+            let definition = schemas.remove(flat.as_str()).context(
+                "No way we can't find the name of a schema that we just collected. That's a bug.",
+            )?;
+            let raw_pointer = reference_prefix.clone() + &flat;
             registry.insert(Pointer::try_new(domain, &raw_pointer)?, definition)?;
         }
 
         let schema_names = schemas.keys().cloned().collect::<HashSet<String>>();
         // Perform a flattening pass: if a "$ref" is mentioned, make it a pointer object.
         for schema in schemas.values_mut() {
-            leaf_fields(schema)
-                .into_iter()
-                .for_each(|(key, value)| {
-                    if key == "$ref" {
-                        let raw_pointer = value.as_str().unwrap();
-                        let pointer = Pointer::try_new(domain, raw_pointer).unwrap();
+            leaf_fields(schema).into_iter().for_each(|(key, value)| {
+                if key == "$ref" {
+                    let raw_pointer = value.as_str().unwrap();
+                    let pointer = Pointer::try_new(domain, raw_pointer).unwrap();
 
-                        if let Some(definition) = registry.get(&pointer) {
-                            let mut object = serde_json::Map::new();
-                            object
-                                .insert(raw_pointer.to_string(), definition.clone());
-                            *value = Value::Object(object);
-                        } else if pointer.domain == domain && !schema_names.contains(pointer.schema_name()) {
-                            // Local schema not found.
-                            let mut object = Map::new();
-                            println!("Schema not found: {:?}", pointer);
-                            object.insert("_SCHEMA_NOT_FOUND_".to_string(), Value::String(raw_pointer.to_string()));
-                            *value = Value::Object(object);
-                        }
+                    if let Some(definition) = registry.get(&pointer) {
+                        let mut object = serde_json::Map::new();
+                        object.insert(raw_pointer.to_string(), definition.clone());
+                        *value = Value::Object(object);
+                    } else if pointer.domain == domain
+                        && !schema_names.contains(pointer.schema_name())
+                    {
+                        // Local schema not found.
+                        let mut object = Map::new();
+                        println!("Schema not found: {:?}", pointer);
+                        object.insert(
+                            "_SCHEMA_NOT_FOUND_".to_string(),
+                            Value::String(raw_pointer.to_string()),
+                        );
+                        *value = Value::Object(object);
                     }
-                })
+                }
+            })
         }
 
         if schemas_left == schemas.len() {
-            let schema_names = schemas.keys().map(|name| "\n".to_string() + name).collect::<String>();
-            bail!("No replacement during the last pass. Cycle? Schemas left: {}", schema_names);
+            let schema_names = schemas
+                .keys()
+                .map(|name| "\n".to_string() + name)
+                .collect::<String>();
+            bail!(
+                "No replacement during the last pass. Cycle? Schemas left: {}",
+                schema_names
+            );
         }
         schemas_left = schemas.len();
     }
